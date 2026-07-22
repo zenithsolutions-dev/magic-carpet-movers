@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.moving.com)",
+      "WebSearch",
+      "Bash(npm i *)",
+      "Bash(npx tsc *)",
+      "Bash(cat \"C:\\\\\\\\Users\\\\\\\\GRAPHICS\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\claude\\\\\\\\c--Users-GRAPHICS-Documents-zenith-solutions-magic-carpet-moving\\\\\\\\ff16e3b6-96f2-48b1-9b8b-902aa7db3764\\\\\\\\tasks\\\\\\\\bpx9xs0ba.output\")",
+      "Bash(npm run *)"
+    ]
+  }
+}
