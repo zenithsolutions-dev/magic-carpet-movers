@@ -143,6 +143,33 @@ export function QuoteForm() {
   const [step, setStep] = React.useState(0);
   const reduce = useReducedMotion();
 
+  // Prefill from the hero quick-quote card (?from=&to=&date=).
+  // Postal-looking values seed the postal fields; free-text city names are
+  // preserved in the notes so the visitor never has to repeat themselves.
+  const prefilled = React.useRef(false);
+  React.useEffect(() => {
+    if (prefilled.current) return;
+    prefilled.current = true;
+    const params = new URLSearchParams(window.location.search);
+    const from = params.get("from")?.trim() ?? "";
+    const to = params.get("to")?.trim() ?? "";
+    const date = params.get("date")?.trim() ?? "";
+    const postalRe = /^[A-Za-z]\d[A-Za-z]\s?\d[A-Za-z]\d$/;
+    const freeText: string[] = [];
+
+    if (from) {
+      if (postalRe.test(from)) form.setValue("fromPostal", normalizePostalInput(from));
+      else freeText.push(`Moving from: ${from}`);
+    }
+    if (to) {
+      if (postalRe.test(to)) form.setValue("toPostal", normalizePostalInput(to));
+      else freeText.push(`Moving to: ${to}`);
+    }
+    if (date && /^\d{4}-\d{2}-\d{2}$/.test(date)) form.setValue("moveDate", date);
+    if (freeText.length) form.setValue("notes", freeText.join("\n"));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   React.useEffect(() => {
     if (state.fieldErrors) {
       form.setServerErrors(state.fieldErrors);
@@ -298,7 +325,7 @@ function StepRoute({ form }: { form: FormApi }) {
           {...fromProps}
           label="From postal code"
           mandatory
-          placeholder="K2K 1K1"
+          placeholder="H2J 2L9"
           inputMode="text"
           autoComplete="postal-code"
           autoCapitalize="characters"
@@ -311,7 +338,7 @@ function StepRoute({ form }: { form: FormApi }) {
           {...toProps}
           label="To postal code"
           mandatory
-          placeholder="M5V 2A8"
+          placeholder="H7N 4C6"
           inputMode="text"
           autoComplete="postal-code"
           autoCapitalize="characters"
