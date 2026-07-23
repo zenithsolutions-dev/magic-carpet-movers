@@ -11,11 +11,12 @@ export function ServiceAreas() {
           <Reveal className="lg:col-span-5">
             <p className="kicker text-coral-soft mb-4">Service area</p>
             <h2 className="font-display text-3xl md:text-4xl text-balance">
-              Proudly serving <span className="italic text-coral-soft">Greater Montreal.</span>
+              Proudly serving <span className="italic text-coral-soft">Ottawa-Gatineau.</span>
             </h2>
             <p className="mt-4 text-cloud/75 text-pretty max-w-md">
-              From the island to the South Shore and Laval &mdash; and long-distance
-              across Canada plus international shipping when you&rsquo;re headed further.
+              Both sides of the river &mdash; Ottawa, Gatineau, and everywhere in
+              between &mdash; plus long-distance across Canada and international
+              shipping when you&rsquo;re headed further.
             </p>
             <a
               href={siteConfig.phoneHref}

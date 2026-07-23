@@ -325,7 +325,7 @@ function StepRoute({ form }: { form: FormApi }) {
           {...fromProps}
           label="From postal code"
           mandatory
-          placeholder="H2J 2L9"
+          placeholder="K1P 5G3"
           inputMode="text"
           autoComplete="postal-code"
           autoCapitalize="characters"
@@ -338,7 +338,7 @@ function StepRoute({ form }: { form: FormApi }) {
           {...toProps}
           label="To postal code"
           mandatory
-          placeholder="H7N 4C6"
+          placeholder="J8X 3X6"
           inputMode="text"
           autoComplete="postal-code"
           autoCapitalize="characters"

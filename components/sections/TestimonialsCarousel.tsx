@@ -42,7 +42,7 @@ export function TestimonialsCarousel({
             Honest words
           </p>
           <h2 className="font-display text-3xl md:text-4xl text-twilight text-balance">
-            What Montreal <span className="italic text-coral">says about us.</span>
+            What Ottawa <span className="italic text-coral">says about us.</span>
           </h2>
         </Reveal>
 

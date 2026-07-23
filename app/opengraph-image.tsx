@@ -89,7 +89,7 @@ export default function OpengraphImage() {
               fontWeight: 600,
             }}
           >
-            magiccarpet.com
+            (514) 246-8463
           </div>
         </div>
       </div>

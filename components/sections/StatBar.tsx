@@ -19,7 +19,7 @@ type Stat = {
 const stats: Stat[] = [
   { value: 4.9, decimals: 1, label: "Google rating", sub: "from real customer reviews" },
   { value: 2000, suffix: "+", label: "Moves completed", sub: "homes & offices relocated" },
-  { value: 10, suffix: "+", label: "Years moving", sub: "serving Greater Montreal" },
+  { value: 10, suffix: "+", label: "Years moving", sub: "serving Ottawa-Gatineau" },
   { value: 100, suffix: "%", label: "Licensed & insured", sub: "your belongings, protected" },
 ];
 

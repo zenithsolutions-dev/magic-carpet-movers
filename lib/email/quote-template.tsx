@@ -25,7 +25,7 @@ export function renderQuoteEmail(payload: QuoteInput): {
   const subject = `New quote — ${payload.name} (${formatPostal(payload.fromPostal)} → ${formatPostal(payload.toPostal)})`;
 
   const text = [
-    `New quote request from magiccarpet`,
+    `New quote request from Magic Carpet Movers`,
     ``,
     `Name:   ${payload.name}`,
     `Email:  ${payload.email}`,

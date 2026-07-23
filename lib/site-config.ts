@@ -5,38 +5,38 @@ export const siteConfig = {
     "Local & long-distance moving, packing & unpacking, furniture disassembly, moving boxes, and Canada-wide + international shipping. We move it like it's magic.",
   url:
     process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
-  email: "magiccarpet.inc@gmail.com", // TODO_USER_PROVIDE
-  phone: "(514) 246-8463", // TODO_USER_PROVIDE
+  email: "magicarpet.inc@gmail.com",
+  phone: "(514) 246-8463",
   phoneHref: "tel:+15142468463",
   address: {
-    street: "1470 Rue Sainte-Catherine O, Suite 200",
-    city: "Montreal",
-    province: "QC",
-    postalCode: "H3G 1S1",
-  }, // TODO_USER_PROVIDE
+    street: "1042 Carling Ave, Suite 7",
+    city: "Ottawa",
+    province: "ON",
+    postalCode: "K1Y 4P9",
+  }, // TODO_USER_PROVIDE — confirm exact street address with the client
   // Used in the Google Maps embed on /contact. Override with the exact address you want pinned.
-  mapQuery: "Montreal, QC, Canada",
+  mapQuery: "1042 Carling Ave, Ottawa, ON",
   hours: [
     { day: "Mon — Fri", time: "7:00 AM — 7:00 PM" },
     { day: "Saturday", time: "8:00 AM — 5:00 PM" },
     { day: "Sunday", time: "By appointment" },
   ],
   serviceCities: [
-    "Montreal",
-    "Laval",
-    "Longueuil",
-    "Brossard",
-    "West Island",
-    "Saint-Laurent",
-    "Verdun",
-    "NDG",
-    "Plateau-Mont-Royal",
-    "Westmount",
-    "Dollard-des-Ormeaux",
-    "South Shore",
+    "Ottawa",
+    "Gatineau",
+    "Kanata",
+    "Orleans",
+    "Nepean",
+    "Barrhaven",
+    "Stittsville",
+    "Westboro",
+    "Hull",
+    "Aylmer",
+    "Manotick",
+    "Rockland",
   ], // TODO_USER_PROVIDE — replace with real service area
   credentials: {
-    license: "Licensed in Quebec", // TODO_USER_PROVIDE — replace with your CAM membership / provincial number
+    license: "Licensed in ON & QC", // TODO_USER_PROVIDE — replace with your CAM membership / provincial number
     cam: "CAM Member", // TODO_USER_PROVIDE
     bbb: "A+",
     insured: true,
@@ -184,28 +184,28 @@ export type Testimonial = {
 export const testimonials: Testimonial[] = [
   {
     name: "Geneviève L.",
-    route: "Plateau-Mont-Royal → Laval",
+    route: "Gatineau (Hull) → Aylmer",
     quote:
-      "The crew showed up on time, wrapped every piece of furniture, and carried it all down three flights of Plateau stairs without a single scratch. Fair price, no last-minute add-ons.",
+      "The crew showed up on time, wrapped every piece of furniture, and carried it all down three flights of stairs without a single scratch. Fair price, no last-minute add-ons.",
     stars: 5,
   },
   {
-    name: "Marc-André T.",
-    route: "NDG → Westmount",
+    name: "Marc T.",
+    route: "Centretown → Kanata",
     quote:
       "Booked on a Monday, moved that Saturday. Two movers, four hours, everything in place. They even reassembled the beds. Honestly the easiest move we've had.",
     stars: 5,
   },
   {
     name: "Sarah B.",
-    route: "Verdun → South Shore (Brossard)",
+    route: "Orleans → Barrhaven",
     quote:
-      "I was nervous about my grandmother's china, but they packed it themselves and it arrived in Brossard perfect. Polite, careful, and they gave us a clear quote upfront.",
+      "I was nervous about my grandmother's china, but they packed it themselves and it arrived perfect. Polite, careful, and they gave us a clear quote upfront.",
     stars: 5,
   },
   {
     name: "David C.",
-    route: "Montreal → Toronto",
+    route: "Ottawa → Toronto",
     quote:
       "Long-distance move and the same crew handled both ends. They kept me updated the whole way and delivered right on schedule. No damage, no surprises on the bill.",
     stars: 5,
@@ -221,7 +221,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "How far ahead should I book?",
-    a: "For local moves around Montreal: 7 — 10 days is comfortable, but we save 1 — 2 daily slots for short-notice bookings. For long-distance: 3 — 4 weeks is ideal, especially around July 1 and through the summer moving season.",
+    a: "For local moves around Ottawa-Gatineau: 7 — 10 days is comfortable, but we save 1 — 2 daily slots for short-notice bookings. For long-distance: 3 — 4 weeks is ideal, especially around July 1 and through the summer moving season.",
   },
   {
     q: "What's not included in a quote?",
@@ -229,7 +229,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "Are you licensed and insured?",
-    a: "Yes — fully insured, licensed in Quebec, and a member of the Canadian Association of Movers (CAM). We issue a Certificate of Insurance to your building or condo board the moment you book. Full-value protection is included on long-distance.",
+    a: "Yes — fully insured, licensed on both sides of the river (Ontario & Quebec), and a member of the Canadian Association of Movers (CAM). We issue a Certificate of Insurance to your building or condo board the moment you book. Full-value protection is included on long-distance.",
   },
   {
     q: "What if my move date changes?",

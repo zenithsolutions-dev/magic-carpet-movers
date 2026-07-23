@@ -36,13 +36,14 @@ export const metadata: Metadata = {
     template: "%s · Magic Carpet Movers",
   },
   description:
-    "Montreal's local & long-distance movers. Packing, furniture disassembly, moving boxes, cleaning, and Canada-wide + international shipping — handled like magic.",
+    "Ottawa-Gatineau's local & long-distance movers. Packing, furniture disassembly, moving boxes, cleaning, and Canada-wide + international shipping — handled like magic.",
   applicationName: "Magic Carpet Movers",
   authors: [{ name: "Magic Carpet Movers" }],
   keywords: [
     "movers",
     "moving company",
-    "Montreal movers",
+    "Ottawa movers",
+    "Gatineau movers",
     "local movers",
     "long-distance movers",
     "packing and unpacking",

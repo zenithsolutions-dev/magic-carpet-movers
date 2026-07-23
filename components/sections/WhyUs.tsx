@@ -40,7 +40,7 @@ export function WhyUs() {
             {/* floating proof chip */}
             <div className="absolute -bottom-5 -right-3 md:right-6 rounded-xl bg-twilight text-cloud px-5 py-4 shadow-lift">
               <div className="font-poster text-3xl leading-none text-coral-soft">4.9★</div>
-              <div className="mt-1 text-xs text-cloud/80">Rated by Montreal movers &amp; families</div>
+              <div className="mt-1 text-xs text-cloud/80">Rated by Ottawa &amp; Gatineau families</div>
             </div>
           </Reveal>
 

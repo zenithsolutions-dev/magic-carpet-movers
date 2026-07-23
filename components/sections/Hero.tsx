@@ -84,7 +84,7 @@ export function Hero() {
                 ))}
               </span>
               <span className="text-xs font-medium tracking-wide text-cloud/90">
-                4.9 rating · Montreal&rsquo;s trusted movers
+                4.9 rating · Ottawa-Gatineau&rsquo;s trusted movers
               </span>
             </motion.div>
 
