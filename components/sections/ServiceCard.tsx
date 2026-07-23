@@ -24,7 +24,7 @@ export function ServiceCard({ service }: { service: Service }) {
       className="group h-full"
     >
       <Link
-        href={`/services/${service.slug}`}
+        href="#quote"
         className="relative flex h-full flex-col overflow-hidden rounded-xl bg-cloud border border-border-soft p-7 shadow-soft transition-all duration-300 group-hover:shadow-lift group-hover:border-coral/30"
       >
         <div
@@ -58,7 +58,7 @@ export function ServiceCard({ service }: { service: Service }) {
         </p>
 
         <div className="mt-6 flex items-center gap-2 text-sm font-medium text-coral relative">
-          Learn more
+          Get a quote
           <svg
             viewBox="0 0 16 16"
             className="size-4 transition-transform duration-200 group-hover:translate-x-1"

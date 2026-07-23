@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { useRouter } from "next/navigation";
 import { motion, useReducedMotion } from "motion/react";
 import { Button } from "@/components/primitives/Button";
 import { Container } from "@/components/layout/Container";
@@ -14,19 +13,17 @@ import { siteConfig } from "@/lib/site-config";
  */
 export function Hero() {
   const reduce = useReducedMotion();
-  const router = useRouter();
   const [from, setFrom] = React.useState("");
   const [to, setTo] = React.useState("");
   const [date, setDate] = React.useState("");
 
   function submitQuote(e: React.FormEvent) {
     e.preventDefault();
-    const params = new URLSearchParams();
-    if (from) params.set("from", from);
-    if (to) params.set("to", to);
-    if (date) params.set("date", date);
-    const qs = params.toString();
-    router.push(qs ? `/quote?${qs}` : "/quote");
+    // One-page flow: hand the values to the quote section and scroll to it.
+    window.dispatchEvent(
+      new CustomEvent("mcm:prefill", { detail: { from, to, date } }),
+    );
+    document.getElementById("quote")?.scrollIntoView({ behavior: "smooth" });
   }
 
   const fade = {
@@ -113,7 +110,7 @@ export function Hero() {
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
               className="mt-8 flex flex-col sm:flex-row gap-3"
             >
-              <Button href="/quote" variant="primary" size="lg">
+              <Button href="#quote" variant="primary" size="lg">
                 Get a free quote
                 <svg viewBox="0 0 16 16" className="size-4" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M3 8h10M9 4l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />

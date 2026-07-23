@@ -54,10 +54,12 @@ export const siteConfig = {
 export type SiteConfig = typeof siteConfig;
 
 export const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/services", label: "Services" },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
+  { href: "/#services", label: "Services" },
+  { href: "/#process", label: "How it works" },
+  { href: "/#story", label: "Our Story" },
+  { href: "/#reviews", label: "Reviews" },
+  { href: "/#faq", label: "FAQ" },
+  { href: "/#contact", label: "Contact" },
 ] as const;
 
 export type Service = {
