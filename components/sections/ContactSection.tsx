@@ -13,8 +13,9 @@ export function ContactSection() {
             Questions? <span className="italic text-coral">A real person answers.</span>
           </h2>
           <p className="mt-4 text-lg text-ink-muted text-pretty max-w-xl mx-auto">
-            Booking a move? Use the quote form above for a same-day number.
-            Anything else, send a note and we&rsquo;ll write back.
+            Booking a move? Use the quote form above and we&rsquo;ll come
+            straight back with a real number. Anything else, send a note &mdash;
+            we&rsquo;re here 24/7.
           </p>
         </Reveal>
 
@@ -31,7 +32,7 @@ export function ContactSection() {
                     {siteConfig.phone}
                   </a>
                 }
-                body="Mon — Fri 7am to 7pm. Saturdays 8 to 5. We answer on the second ring."
+                body="Open 24 hours a day, 7 days a week. We answer on the second ring."
               />
               <ContactBlock
                 eyebrow="Email"
@@ -43,21 +44,21 @@ export function ContactSection() {
                     {siteConfig.email}
                   </a>
                 }
-                body="Replies within one business day."
+                body="We reply anytime, day or night."
               />
               <ContactBlock
-                eyebrow="Visit"
+                eyebrow="Service area"
                 title={
                   <span className="text-twilight">
-                    {siteConfig.address.street}
+                    {siteConfig.serviceArea.label}
                   </span>
                 }
-                body={`${siteConfig.address.city}, ${siteConfig.address.province} ${siteConfig.address.postalCode}`}
+                body={`${siteConfig.serviceArea.region} — we come to you, no depot visit needed.`}
               />
               <div className="rounded-xl overflow-hidden border border-border-soft bg-cloud">
                 <iframe
-                  title={`Map to ${siteConfig.name}`}
-                  src={`https://maps.google.com/maps?q=${encodeURIComponent(siteConfig.mapQuery)}&t=m&z=14&output=embed&iwloc=near`}
+                  title={`${siteConfig.name} service area`}
+                  src={`https://maps.google.com/maps?q=${encodeURIComponent(siteConfig.mapQuery)}&t=m&z=10&output=embed&iwloc=near`}
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                   className="block w-full h-64 border-0"

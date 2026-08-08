@@ -576,7 +576,7 @@ function SuccessPanel() {
       </h2>
       <p className="mt-4 text-ink-muted text-pretty max-w-md mx-auto">
         We&apos;ve got your details. A real person — not a bot — will come back to
-        you with a quote within the same business day.
+        you with a quote right away. We&apos;re available 24/7.
       </p>
     </motion.div>
   );

@@ -20,8 +20,9 @@ export function QuoteSection() {
             Three questions. <span className="italic text-coral">One real number.</span>
           </h2>
           <p className="mt-4 text-lg text-ink-muted text-pretty max-w-xl mx-auto">
-            Tell us the route, the size, and the date &mdash; we reply with a
-            clear, no-obligation estimate within the hour.
+            Tell us the route, the size, and the date &mdash; we&rsquo;re
+            available 24/7 and come straight back with a clear, no-obligation
+            estimate.
           </p>
         </Reveal>
         <div className="max-w-2xl mx-auto">

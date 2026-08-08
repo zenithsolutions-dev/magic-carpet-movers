@@ -132,7 +132,7 @@ export function Hero() {
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
               className="mt-5 text-sm text-cloud/60"
             >
-              Free, no-obligation estimate · Same-week availability · Fully insured
+              Free, no-obligation estimate · Available 24/7 · Fully insured
             </motion.p>
           </motion.div>
 
@@ -191,7 +191,7 @@ export function Hero() {
                 </svg>
               </Button>
               <p className="mt-3 text-center text-xs text-ink-muted">
-                Takes under a minute · We reply within the hour
+                Takes under a minute · We reply anytime, day or night
               </p>
             </form>
           </motion.div>

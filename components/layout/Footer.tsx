@@ -76,10 +76,10 @@ export function Footer() {
           </div>
 
           <div className="md:col-span-4">
-            <FooterHeading>Visit</FooterHeading>
+            <FooterHeading>Service area</FooterHeading>
             <address className="not-italic mt-4 text-sm text-cloud/70 leading-relaxed">
-              {siteConfig.address.street}<br />
-              {siteConfig.address.city}, {siteConfig.address.province} {siteConfig.address.postalCode}
+              {siteConfig.serviceArea.label}<br />
+              {siteConfig.serviceArea.region}
             </address>
             <div className="mt-4">
               <FooterHeading className="text-xs">Hours</FooterHeading>

@@ -31,8 +31,9 @@ export default function ContactPage() {
             Say hi. <span className="italic text-coral">We&apos;ll lift off.</span>
           </h1>
           <p className="mt-5 text-lg text-ink-muted text-pretty max-w-xl mx-auto">
-            Booking a move? Use the quote form for a same-day number. Anything
-            else, send a note here and a real person will write back.
+            Booking a move? Use the quote form and we&apos;ll come straight back
+            with a real number. Anything else, send a note here and a real person
+            will write back &mdash; we&apos;re available 24/7.
           </p>
         </Reveal>
 
@@ -49,7 +50,7 @@ export default function ContactPage() {
                     {siteConfig.phone}
                   </a>
                 }
-                body="Mon — Fri 7am to 7pm. Saturdays 8 to 5. We answer on the second ring."
+                body="Open 24 hours a day, 7 days a week. We answer on the second ring."
               />
               <ContactBlock
                 eyebrow="Email"
@@ -61,21 +62,21 @@ export default function ContactPage() {
                     {siteConfig.email}
                   </a>
                 }
-                body="Replies within one business day."
+                body="We reply anytime, day or night."
               />
               <ContactBlock
-                eyebrow="Visit"
+                eyebrow="Service area"
                 title={
                   <span className="text-twilight">
-                    {siteConfig.address.street}
+                    {siteConfig.serviceArea.label}
                   </span>
                 }
-                body={`${siteConfig.address.city}, ${siteConfig.address.province} ${siteConfig.address.postalCode}`}
+                body={`${siteConfig.serviceArea.region} — we come to you, no depot visit needed.`}
               />
               <div className="rounded-xl overflow-hidden border border-border-soft bg-cloud">
                 <iframe
-                  title={`Map to ${siteConfig.name}`}
-                  src={`https://maps.google.com/maps?q=${encodeURIComponent(siteConfig.mapQuery)}&t=m&z=14&output=embed&iwloc=near`}
+                  title={`${siteConfig.name} service area`}
+                  src={`https://maps.google.com/maps?q=${encodeURIComponent(siteConfig.mapQuery)}&t=m&z=10&output=embed&iwloc=near`}
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                   className="block w-full h-64 border-0"
