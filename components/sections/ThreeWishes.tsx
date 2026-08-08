@@ -9,7 +9,7 @@ const steps = [
     n: "01",
     title: "Get your quote",
     body:
-      "Tell us where you’re moving, when, and roughly what’s coming. We reply with a clear, no-obligation estimate within the hour.",
+      "Tell us where you’re moving, when, and roughly what’s coming. We’re available 24/7 and come straight back with a clear, no-obligation estimate.",
     icon: "wish",
   },
   {

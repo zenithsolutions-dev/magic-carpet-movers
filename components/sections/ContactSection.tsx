@@ -1,39 +1,21 @@
-import type { Metadata } from "next";
 import { Container } from "@/components/layout/Container";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { Reveal } from "@/components/primitives/Reveal";
 import { siteConfig } from "@/lib/site-config";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description:
-    "Get in touch with Magic Carpet. Phone, email, hours, and a quick note form.",
-  alternates: { canonical: "/contact" },
-};
-
-export default function ContactPage() {
+export function ContactSection() {
   return (
-    <section className="relative py-12 md:py-20">
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-10"
-        style={{
-          background:
-            "radial-gradient(ellipse 60% 40% at 100% 0%, rgba(30,107,255,0.10) 0%, transparent 60%), linear-gradient(180deg, #F5F8FF 0%, #E9F0FF 100%)",
-        }}
-      />
+    <section id="contact" className="relative py-24 md:py-32 scroll-mt-24">
       <Container>
         <Reveal className="max-w-3xl mx-auto text-center mb-12">
-          <p className="text-sm uppercase tracking-[0.18em] text-coral font-semibold mb-4">
-            Contact
-          </p>
-          <h1 className="font-display text-4xl md:text-display text-twilight text-balance leading-[1.05]">
-            Say hi. <span className="italic text-coral">We&apos;ll lift off.</span>
-          </h1>
-          <p className="mt-5 text-lg text-ink-muted text-pretty max-w-xl mx-auto">
-            Booking a move? Use the quote form and we&apos;ll come straight back
-            with a real number. Anything else, send a note here and a real person
-            will write back &mdash; we&apos;re available 24/7.
+          <p className="kicker text-coral mb-4">Contact</p>
+          <h2 className="font-display text-3xl md:text-4xl text-twilight text-balance">
+            Questions? <span className="italic text-coral">A real person answers.</span>
+          </h2>
+          <p className="mt-4 text-lg text-ink-muted text-pretty max-w-xl mx-auto">
+            Booking a move? Use the quote form above and we&rsquo;ll come
+            straight back with a real number. Anything else, send a note &mdash;
+            we&rsquo;re here 24/7.
           </p>
         </Reveal>
 

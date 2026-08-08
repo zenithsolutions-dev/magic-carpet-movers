@@ -34,7 +34,7 @@ export function Footer() {
               {services.map((s) => (
                 <li key={s.slug}>
                   <Link
-                    href={`/services/${s.slug}`}
+                    href="/#services"
                     className="text-sm text-cloud/70 hover:text-coral transition-colors"
                   >
                     {s.title}
@@ -48,17 +48,17 @@ export function Footer() {
             <FooterHeading>Company</FooterHeading>
             <ul className="mt-4 flex flex-col gap-2">
               <li>
-                <Link href="/about" className="text-sm text-cloud/70 hover:text-coral transition-colors">
-                  About
+                <Link href="/#story" className="text-sm text-cloud/70 hover:text-coral transition-colors">
+                  Our Story
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-sm text-cloud/70 hover:text-coral transition-colors">
+                <Link href="/#contact" className="text-sm text-cloud/70 hover:text-coral transition-colors">
                   Contact
                 </Link>
               </li>
               <li>
-                <Link href="/quote" className="text-sm text-cloud/70 hover:text-coral transition-colors">
+                <Link href="/#quote" className="text-sm text-cloud/70 hover:text-coral transition-colors">
                   Get a quote
                 </Link>
               </li>
@@ -76,10 +76,10 @@ export function Footer() {
           </div>
 
           <div className="md:col-span-4">
-            <FooterHeading>Visit</FooterHeading>
+            <FooterHeading>Service area</FooterHeading>
             <address className="not-italic mt-4 text-sm text-cloud/70 leading-relaxed">
-              {siteConfig.address.street}<br />
-              {siteConfig.address.city}, {siteConfig.address.province} {siteConfig.address.postalCode}
+              {siteConfig.serviceArea.label}<br />
+              {siteConfig.serviceArea.region}
             </address>
             <div className="mt-4">
               <FooterHeading className="text-xs">Hours</FooterHeading>

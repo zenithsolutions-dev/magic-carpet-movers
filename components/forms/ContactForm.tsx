@@ -103,7 +103,7 @@ export function ContactForm() {
           Got it. <span className="italic text-coral">Talk soon.</span>
         </h3>
         <p className="mt-3 text-ink-muted text-pretty max-w-md mx-auto">
-          We respond within one business day, usually faster.
+          We&apos;re available 24/7 — expect a reply shortly.
         </p>
       </motion.div>
     );

@@ -7,7 +7,7 @@ import { siteConfig } from "@/lib/site-config";
 export const metadata: Metadata = {
   title: "Get a Quote",
   description:
-    "Three quick questions, one real number. Tell us about your move and we'll come back the same day.",
+    "Three quick questions, one real number. Tell us about your move — we're available 24/7 and come straight back.",
   alternates: { canonical: "/quote" },
 };
 
@@ -31,7 +31,7 @@ export default function QuotePage() {
             Three questions. <span className="italic text-coral">One real number.</span>
           </h1>
           <p className="mt-5 text-ink-muted text-pretty max-w-lg mx-auto">
-            We respond the same business day. Or call{" "}
+            We&apos;re available 24/7 and respond right away. Or call{" "}
             <a
               href={siteConfig.phoneHref}
               className="text-coral font-medium hover:text-coral-deep underline-offset-4 hover:underline"

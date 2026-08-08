@@ -16,7 +16,7 @@ export function CTABanner({
       Ready to book <span className="italic text-coral">your move?</span>
     </>
   ),
-  subtitle = "Tell us about your move. We come back the same day with a real number and a real date.",
+  subtitle = "Tell us about your move. We're available 24/7 and come straight back with a real number and a real date.",
   primaryHref = "/quote",
   primaryLabel = "Get a quote",
 }: Props) {

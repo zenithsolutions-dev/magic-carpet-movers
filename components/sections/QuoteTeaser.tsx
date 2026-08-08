@@ -34,14 +34,14 @@ export function QuoteTeaser() {
               </div>
 
               <div className="md:col-span-5 flex flex-col gap-3 md:items-end">
-                <Button href="/quote" variant="primary" size="lg">
+                <Button href="#quote" variant="primary" size="lg">
                   Start my quote
                   <svg viewBox="0 0 16 16" className="size-4" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M3 8h10M9 4l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </Button>
                 <Link
-                  href="/contact"
+                  href="#contact"
                   className="text-sm text-cloud/70 hover:text-cloud underline-offset-4 hover:underline"
                 >
                   Or send us a note instead

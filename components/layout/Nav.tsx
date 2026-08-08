@@ -14,7 +14,31 @@ export function Nav() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = React.useState(false);
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [activeId, setActiveId] = React.useState("");
   const reduce = useReducedMotion();
+
+  // Scrollspy: highlight the nav link of the section currently in view.
+  React.useEffect(() => {
+    if (pathname !== "/") return;
+    const ids = navLinks
+      .map((l) => l.href.split("#")[1])
+      .filter(Boolean) as string[];
+    const sections = ids
+      .map((id) => document.getElementById(id))
+      .filter(Boolean) as HTMLElement[];
+    if (!sections.length) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible) setActiveId(visible.target.id);
+      },
+      { rootMargin: "-30% 0px -55% 0px", threshold: [0, 0.2, 0.5] },
+    );
+    sections.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
+  }, [pathname]);
 
   React.useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -57,9 +81,7 @@ export function Nav() {
           <nav aria-label="Primary" className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => {
               const active =
-                link.href === "/"
-                  ? pathname === "/"
-                  : pathname.startsWith(link.href);
+                pathname === "/" && link.href === `/#${activeId}`;
               return (
                 <Link
                   key={link.href}
@@ -109,7 +131,7 @@ export function Nav() {
               </svg>
               {siteConfig.phone}
             </a>
-            <Button href="/quote" variant="primary" size="sm">
+            <Button href="/#quote" variant="primary" size="sm">
               Get a free quote
             </Button>
           </div>
@@ -153,13 +175,12 @@ export function Nav() {
               >
                 {navLinks.map((link) => {
                   const active =
-                    link.href === "/"
-                      ? pathname === "/"
-                      : pathname.startsWith(link.href);
+                    pathname === "/" && link.href === `/#${activeId}`;
                   return (
                     <Link
                       key={link.href}
                       href={link.href}
+                      onClick={() => setMobileOpen(false)}
                       className={cn(
                         "px-4 py-3 rounded-md text-base font-medium",
                         active ? "bg-sand text-twilight" : "text-ink-muted",
@@ -176,7 +197,7 @@ export function Nav() {
                   >
                     Call {siteConfig.phone}
                   </a>
-                  <Button href="/quote" variant="primary" size="md" className="w-full">
+                  <Button href="/#quote" variant="primary" size="md" className="w-full">
                     Get a free quote
                   </Button>
                 </div>
@@ -198,7 +219,7 @@ export function Nav() {
             </svg>
             Call now
           </a>
-          <Button href="/quote" variant="primary" size="md" className="flex-1">
+          <Button href="/#quote" variant="primary" size="md" className="flex-1">
             Free quote
           </Button>
         </div>

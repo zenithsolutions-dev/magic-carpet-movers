@@ -8,19 +8,15 @@ export const siteConfig = {
   email: "magicarpet.inc@gmail.com",
   phone: "(514) 246-8463",
   phoneHref: "tel:+15142468463",
-  address: {
-    street: "1042 Carling Ave, Suite 7",
-    city: "Ottawa",
-    province: "ON",
-    postalCode: "K1Y 4P9",
-  }, // TODO_USER_PROVIDE — confirm exact street address with the client
-  // Used in the Google Maps embed on /contact. Override with the exact address you want pinned.
-  mapQuery: "1042 Carling Ave, Ottawa, ON",
-  hours: [
-    { day: "Mon — Fri", time: "7:00 AM — 7:00 PM" },
-    { day: "Saturday", time: "8:00 AM — 5:00 PM" },
-    { day: "Sunday", time: "By appointment" },
-  ],
+  // Ontario-based and mobile — the crew comes to you, so there is no walk-in
+  // street address to publish. Keep this general (city + province only).
+  serviceArea: {
+    label: "Serving Ottawa & across Ontario",
+    region: "Ontario, Canada",
+  },
+  // City-level map on the contact section — coverage area, not an office pin.
+  mapQuery: "Ottawa, Ontario, Canada",
+  hours: [{ day: "Every day", time: "24 hours" }],
   serviceCities: [
     "Ottawa",
     "Gatineau",
@@ -54,10 +50,12 @@ export const siteConfig = {
 export type SiteConfig = typeof siteConfig;
 
 export const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/services", label: "Services" },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
+  { href: "/#services", label: "Services" },
+  { href: "/#process", label: "How it works" },
+  { href: "/#story", label: "Our Story" },
+  { href: "/#reviews", label: "Reviews" },
+  { href: "/#faq", label: "FAQ" },
+  { href: "/#contact", label: "Contact" },
 ] as const;
 
 export type Service = {
@@ -221,7 +219,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "How far ahead should I book?",
-    a: "For local moves around Ottawa-Gatineau: 7 — 10 days is comfortable, but we save 1 — 2 daily slots for short-notice bookings. For long-distance: 3 — 4 weeks is ideal, especially around July 1 and through the summer moving season.",
+    a: "Whenever suits you — including today. We're available 24/7 and we keep crews open for short-notice and last-minute moves, so a same-day or next-morning booking is never a problem. Booking further ahead simply gives you first pick of the time slot, especially around July 1 and through the summer moving season.",
   },
   {
     q: "What's not included in a quote?",

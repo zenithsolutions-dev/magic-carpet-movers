@@ -143,32 +143,48 @@ export function QuoteForm() {
   const [step, setStep] = React.useState(0);
   const reduce = useReducedMotion();
 
-  // Prefill from the hero quick-quote card (?from=&to=&date=).
+  // Prefill from the hero quick-quote card — via URL params (?from=&to=&date=)
+  // on a fresh load, or via the "mcm:prefill" event on the one-page flow.
   // Postal-looking values seed the postal fields; free-text city names are
   // preserved in the notes so the visitor never has to repeat themselves.
+  const applyPrefill = React.useCallback(
+    (from: string, to: string, date: string) => {
+      const postalRe = /^[A-Za-z]\d[A-Za-z]\s?\d[A-Za-z]\d$/;
+      const freeText: string[] = [];
+
+      if (from) {
+        if (postalRe.test(from)) form.setValue("fromPostal", normalizePostalInput(from));
+        else freeText.push(`Moving from: ${from}`);
+      }
+      if (to) {
+        if (postalRe.test(to)) form.setValue("toPostal", normalizePostalInput(to));
+        else freeText.push(`Moving to: ${to}`);
+      }
+      if (date && /^\d{4}-\d{2}-\d{2}$/.test(date)) form.setValue("moveDate", date);
+      if (freeText.length) form.setValue("notes", freeText.join("\n"));
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
+
   const prefilled = React.useRef(false);
   React.useEffect(() => {
-    if (prefilled.current) return;
-    prefilled.current = true;
-    const params = new URLSearchParams(window.location.search);
-    const from = params.get("from")?.trim() ?? "";
-    const to = params.get("to")?.trim() ?? "";
-    const date = params.get("date")?.trim() ?? "";
-    const postalRe = /^[A-Za-z]\d[A-Za-z]\s?\d[A-Za-z]\d$/;
-    const freeText: string[] = [];
-
-    if (from) {
-      if (postalRe.test(from)) form.setValue("fromPostal", normalizePostalInput(from));
-      else freeText.push(`Moving from: ${from}`);
+    if (!prefilled.current) {
+      prefilled.current = true;
+      const params = new URLSearchParams(window.location.search);
+      applyPrefill(
+        params.get("from")?.trim() ?? "",
+        params.get("to")?.trim() ?? "",
+        params.get("date")?.trim() ?? "",
+      );
     }
-    if (to) {
-      if (postalRe.test(to)) form.setValue("toPostal", normalizePostalInput(to));
-      else freeText.push(`Moving to: ${to}`);
-    }
-    if (date && /^\d{4}-\d{2}-\d{2}$/.test(date)) form.setValue("moveDate", date);
-    if (freeText.length) form.setValue("notes", freeText.join("\n"));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const onPrefill = (e: Event) => {
+      const d = (e as CustomEvent<{ from?: string; to?: string; date?: string }>).detail ?? {};
+      applyPrefill(d.from?.trim() ?? "", d.to?.trim() ?? "", d.date?.trim() ?? "");
+    };
+    window.addEventListener("mcm:prefill", onPrefill);
+    return () => window.removeEventListener("mcm:prefill", onPrefill);
+  }, [applyPrefill]);
 
   React.useEffect(() => {
     if (state.fieldErrors) {
@@ -560,7 +576,7 @@ function SuccessPanel() {
       </h2>
       <p className="mt-4 text-ink-muted text-pretty max-w-md mx-auto">
         We&apos;ve got your details. A real person — not a bot — will come back to
-        you with a quote within the same business day.
+        you with a quote right away. We&apos;re available 24/7.
       </p>
     </motion.div>
   );
