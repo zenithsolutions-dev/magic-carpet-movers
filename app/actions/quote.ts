@@ -102,7 +102,7 @@ export async function submitQuote(
   try {
     const sendResult = await resend.emails.send({
       from: siteConfig.fromEmail,
-      to: [siteConfig.quoteRecipientEmail],
+      to: [...siteConfig.quoteRecipientEmail],
       replyTo: data.email,
       subject,
       html,

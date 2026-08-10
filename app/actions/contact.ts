@@ -67,7 +67,7 @@ export async function submitContact(
   try {
     const sendResult = await resend.emails.send({
       from: siteConfig.fromEmail,
-      to: [siteConfig.contactRecipientEmail],
+      to: [...siteConfig.contactRecipientEmail],
       replyTo: result.data.email,
       subject,
       html,

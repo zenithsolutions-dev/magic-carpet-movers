@@ -42,9 +42,19 @@ export const siteConfig = {
     facebook: "https://facebook.com/magiccarpet",
     google: "https://g.page/magiccarpet",
   },
-  quoteRecipientEmail: "znthsolutions@gmail.com",
-  contactRecipientEmail: "znthsolutions@gmail.com",
-  fromEmail: "Magic Carpet <onboarding@resend.dev>", // TODO_USER_PROVIDE — verify a domain in Resend then change
+  // HANDOVER — these must become the client's inboxes:
+  //   ["info@magicmoversottawa.com", "magicarpet.inc@gmail.com"]
+  // BLOCKED until magicmoversottawa.com is verified as a sending domain in
+  // Resend. `fromEmail` below is still Resend's sandbox sender, which may only
+  // deliver to the address the Resend account was registered with; pointing
+  // these at the client's inboxes first would make every lead email fail.
+  // Order of operations: verify the domain in Resend -> update `fromEmail` ->
+  // then swap these two lists. All three are one-line edits.
+  quoteRecipientEmail: ["znthsolutions@gmail.com"],
+  contactRecipientEmail: ["znthsolutions@gmail.com"],
+  // TODO_USER_PROVIDE — after domain verification, change to something like
+  // "Magic Carpet Movers <quotes@magicmoversottawa.com>".
+  fromEmail: "Magic Carpet <onboarding@resend.dev>",
 } as const;
 
 export type SiteConfig = typeof siteConfig;
