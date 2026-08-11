@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Archivo, Anton, Hanken_Grotesk } from "next/font/google";
+import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
 
 const hanken = Hanken_Grotesk({
@@ -28,9 +29,9 @@ const anton = Anton({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
-  ),
+  // Single source of truth: siteConfig.url (NEXT_PUBLIC_SITE_URL with a
+  // localhost fallback). sitemap.ts and robots.ts read the same value.
+  metadataBase: new URL(siteConfig.url),
   title: {
     default: "Magic Carpet Movers — We move it like it's magic",
     template: "%s · Magic Carpet Movers",
