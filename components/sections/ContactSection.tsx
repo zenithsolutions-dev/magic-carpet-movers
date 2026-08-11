@@ -56,13 +56,25 @@ export function ContactSection() {
                 body={`${siteConfig.serviceArea.region} — we come to you, no depot visit needed.`}
               />
               <div className="rounded-xl overflow-hidden border border-border-soft bg-cloud">
-                <iframe
-                  title={`${siteConfig.name} service area`}
-                  src={`https://maps.google.com/maps?q=${encodeURIComponent(siteConfig.mapQuery)}&t=m&z=10&output=embed&iwloc=near`}
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  className="block w-full h-64 border-0"
-                />
+                {/* The map itself is a link: a transparent overlay catches the
+                    click and opens Google Maps at the same query. This also
+                    stops the iframe from hijacking scroll/pan gestures. */}
+                <div className="relative">
+                  <iframe
+                    title={`${siteConfig.name} service area`}
+                    src={`https://maps.google.com/maps?q=${encodeURIComponent(siteConfig.mapQuery)}&t=m&z=10&output=embed&iwloc=near`}
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="block w-full h-64 border-0"
+                  />
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(siteConfig.mapQuery)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Open ${siteConfig.name} service area in Google Maps`}
+                    className="absolute inset-0 cursor-pointer"
+                  />
+                </div>
                 <a
                   href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(siteConfig.mapQuery)}`}
                   target="_blank"
