@@ -62,7 +62,7 @@ export function ContactSection() {
                 <div className="relative">
                   <iframe
                     title={`${siteConfig.name} service area`}
-                    src={`https://maps.google.com/maps?q=${encodeURIComponent(siteConfig.mapQuery)}&t=m&z=10&output=embed&iwloc=near`}
+                    src={`https://maps.google.com/maps?q=${encodeURIComponent(siteConfig.mapQuery)}&t=m&z=15&output=embed&iwloc=near`}
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
                     className="block w-full h-64 border-0"

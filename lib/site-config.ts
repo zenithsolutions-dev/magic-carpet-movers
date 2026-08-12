@@ -14,8 +14,10 @@ export const siteConfig = {
     label: "Serving Ottawa & across Ontario",
     region: "Ontario, Canada",
   },
-  // City-level map on the contact section — coverage area, not an office pin.
-  mapQuery: "Ottawa, Ontario, Canada",
+  // The client's actual Google Business listing (pin supplied by the client:
+  // maps.app.goo.gl/t8hfhKzXARwfjZpz8). The embed and the click-through both
+  // resolve to this listing, reviews and all.
+  mapQuery: "Magic carpet movers, 417 Boul. Alexandre-Taché, Gatineau, Quebec J9A 1M6",
   hours: [{ day: "Every day", time: "24 hours" }],
   serviceCities: [
     "Ottawa",
