@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useActionState } from "react";
+import Script from "next/script";
 import { motion } from "motion/react";
 import { Input } from "@/components/primitives/Input";
 import { SubmitButton } from "@/components/forms/SubmitButton";
@@ -62,6 +63,10 @@ const contactSchema = {
   };
 };
 
+// Cloudflare Turnstile is opt-in: the widget renders (and the script loads)
+// only when a site key is configured, so the form works before provisioning.
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+
 export function ContactForm() {
   const [state, formAction] = useActionState<ContactState, FormData>(
     submitContact,
@@ -116,8 +121,26 @@ export function ContactForm() {
       action={formAction}
       noValidate
       onSubmit={handleSubmit}
-      className="rounded-xl bg-cloud border border-border-soft p-6 md:p-8 shadow-card flex flex-col gap-5"
+      className="relative rounded-xl bg-cloud border border-border-soft p-6 md:p-8 shadow-card flex flex-col gap-5"
     >
+      {/* Honeypot — visually hidden (not display:none, so naive bots still
+          "see" and fill it), removed from tab order and screen readers. */}
+      <div
+        aria-hidden="true"
+        className="absolute size-px overflow-hidden whitespace-nowrap -m-px p-0 border-0"
+        style={{ clip: "rect(0 0 0 0)", clipPath: "inset(50%)" }}
+      >
+        <label htmlFor="cf-website">Website</label>
+        <input
+          id="cf-website"
+          type="text"
+          name="website"
+          tabIndex={-1}
+          autoComplete="off"
+          defaultValue=""
+        />
+      </div>
+
       <Input
         {...form.fieldProps("name")}
         label="Name"
@@ -183,6 +206,19 @@ export function ContactForm() {
           </p>
         )}
       </div>
+
+      {TURNSTILE_SITE_KEY && (
+        <>
+          <Script
+            src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+            strategy="lazyOnload"
+          />
+          {/* Implicit rendering: Turnstile finds this div, renders the
+              challenge, and injects a hidden `cf-turnstile-response` input
+              that submits with the form. */}
+          <div className="cf-turnstile" data-sitekey={TURNSTILE_SITE_KEY} />
+        </>
+      )}
 
       {state.error && !state.fieldErrors && (
         <p

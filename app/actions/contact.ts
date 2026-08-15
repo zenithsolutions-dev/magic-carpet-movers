@@ -1,11 +1,18 @@
 "use server";
 
+import { headers } from "next/headers";
 import { siteConfig } from "@/lib/site-config";
 import { getResend } from "@/lib/email/resend";
 import { renderContactEmail } from "@/lib/email/contact-template";
 import type { ContactState } from "@/lib/form-state";
 import type { ContactInput } from "@/lib/schemas";
 import { validatePayload } from "@/lib/validate-payload";
+import {
+  clientIpFrom,
+  isRateLimited,
+  spamHeuristic,
+  verifyTurnstile,
+} from "@/lib/anti-spam";
 import {
   required,
   email,
@@ -43,6 +50,44 @@ export async function submitContact(
     phone: String(formData.get("phone") ?? "").trim() || undefined,
     message: String(formData.get("message") ?? "").trim(),
   };
+
+  // ── spam gate ─────────────────────────────────────────────────────────
+  // Honeypot: humans never see this field. A filled value means a bot —
+  // report success so it doesn't learn anything, and send nothing.
+  if (String(formData.get("website") ?? "").trim() !== "") {
+    console.warn("Contact spam: honeypot tripped");
+    return { ok: true };
+  }
+
+  const ip = clientIpFrom(await headers());
+
+  if (isRateLimited(ip)) {
+    return {
+      ok: false,
+      error:
+        "You've sent a few messages in a row — give it a little while, or just call us.",
+    };
+  }
+
+  const spamReason = spamHeuristic(raw.name, raw.message);
+  if (spamReason) {
+    // Same silent treatment as the honeypot: don't tutor the bot.
+    console.warn(`Contact spam: heuristic (${spamReason})`);
+    return { ok: true };
+  }
+
+  const turnstileOk = await verifyTurnstile(
+    String(formData.get("cf-turnstile-response") ?? ""),
+    ip,
+  );
+  if (!turnstileOk) {
+    return {
+      ok: false,
+      error:
+        "We couldn't confirm you're human. Please try again or call us.",
+    };
+  }
+  // ── end spam gate ─────────────────────────────────────────────────────
 
   const result = validatePayload<ContactInput>(raw, contactSchema);
   if (!result.ok) {
