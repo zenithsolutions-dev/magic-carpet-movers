@@ -33,7 +33,7 @@ export default function NotFound() {
                 Back to home
               </Button>
               <Link
-                href="/quote"
+                href="/#quote"
                 className="inline-flex items-center justify-center px-6 py-3 text-sm text-ink-muted hover:text-twilight transition-colors"
               >
                 Or get a quote

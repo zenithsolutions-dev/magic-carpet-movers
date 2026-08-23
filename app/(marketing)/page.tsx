@@ -9,6 +9,8 @@ import { QuoteSection } from "@/components/sections/QuoteSection";
 import { TestimonialsCarousel } from "@/components/sections/TestimonialsCarousel";
 import { FAQ } from "@/components/sections/FAQ";
 import { ContactSection } from "@/components/sections/ContactSection";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { buildFaqSchema } from "@/lib/seo";
 
 /**
  * One-page layout: every section lives here and the nav scrolls between
@@ -18,6 +20,7 @@ import { ContactSection } from "@/components/sections/ContactSection";
 export default function HomePage() {
   return (
     <>
+      <JsonLd data={buildFaqSchema()} />
       <Hero />
       <StatBar />
       <div id="services" className="scroll-mt-24">

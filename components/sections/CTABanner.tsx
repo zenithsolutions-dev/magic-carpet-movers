@@ -17,7 +17,7 @@ export function CTABanner({
     </>
   ),
   subtitle = "Tell us about your move. We're available 24/7 and come straight back with a real number and a real date.",
-  primaryHref = "/quote",
+  primaryHref = "/#quote",
   primaryLabel = "Get a quote",
 }: Props) {
   return (
