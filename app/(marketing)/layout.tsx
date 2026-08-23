@@ -2,6 +2,8 @@ import * as React from "react";
 import { Nav } from "@/components/layout/Nav";
 import { Footer } from "@/components/layout/Footer";
 import { PageTransition } from "@/components/layout/PageTransition";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { buildMovingCompanySchema } from "@/lib/seo";
 
 export default function MarketingLayout({
   children,
@@ -10,6 +12,7 @@ export default function MarketingLayout({
 }) {
   return (
     <>
+      <JsonLd data={buildMovingCompanySchema()} />
       <Nav />
       <main id="main" className="flex-1 pt-16 md:pt-20">
         <PageTransition>{children}</PageTransition>

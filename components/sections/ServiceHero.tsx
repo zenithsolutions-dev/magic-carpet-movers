@@ -76,7 +76,7 @@ export function ServiceHero({ service }: { service: Service }) {
               transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
               className="mt-8 flex flex-col sm:flex-row gap-3"
             >
-              <Button href="/quote" variant="primary" size="lg">
+              <Button href="/#quote" variant="primary" size="lg">
                 Quote this move
               </Button>
               <Button href={siteConfig.phoneHref} variant="outline" size="lg">
