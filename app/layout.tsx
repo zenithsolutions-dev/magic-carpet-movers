@@ -65,6 +65,9 @@ export const metadata: Metadata = {
     description: "Local & long-distance movers who treat your move like magic.",
   },
   robots: { index: true, follow: true },
+  // Resolved against metadataBase. Every route page sets its own canonical,
+  // so this only reaches the home page — never a child page by accident.
+  alternates: { canonical: "/" },
 };
 
 export default function RootLayout({

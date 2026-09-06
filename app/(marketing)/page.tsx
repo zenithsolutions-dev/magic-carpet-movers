@@ -9,13 +9,19 @@ import { QuoteSection } from "@/components/sections/QuoteSection";
 import { TestimonialsCarousel } from "@/components/sections/TestimonialsCarousel";
 import { FAQ } from "@/components/sections/FAQ";
 import { ContactSection } from "@/components/sections/ContactSection";
+import type { Metadata } from "next";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildFaqSchema } from "@/lib/seo";
 
+// Explicit self-canonical so the home page never depends on inheritance.
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
+
 /**
  * One-page layout: every section lives here and the nav scrolls between
- * anchors. Old routes (/services/*, /about, /contact, /quote) stay live for
- * SEO and existing links, but the primary navigation is in-page.
+ * anchors. /services/* stay live for SEO; /about, /contact and /quote now
+ * 301 to their home-page sections, and the primary navigation is in-page.
  */
 export default function HomePage() {
   return (
