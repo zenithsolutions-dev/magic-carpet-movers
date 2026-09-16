@@ -71,17 +71,25 @@ export function Hero() {
             <motion.div
               variants={fade}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="inline-flex items-center gap-2.5 rounded-pill bg-cloud/10 backdrop-blur px-4 py-1.5 border border-cloud/20 mb-6"
+              className="flex items-center gap-2.5 md:gap-3 mb-5"
             >
-              <span className="flex text-coral-soft">
-                {[0, 1, 2, 3, 4].map((i) => (
-                  <svg key={i} viewBox="0 0 16 16" className="size-3.5" fill="currentColor">
-                    <path d="M8 .5l2.3 4.7 5.2.8-3.7 3.6.9 5.1L8 12.3l-4.6 2.4.9-5.1L.6 6l5.2-.8L8 .5z" />
-                  </svg>
-                ))}
-              </span>
-              <span className="text-xs font-medium tracking-wide text-cloud/90">
-                4.9 rating · Ottawa-Gatineau&rsquo;s trusted movers
+              <svg
+                viewBox="0 0 24 24"
+                aria-hidden
+                className="size-6 md:size-8 shrink-0 text-coral-soft"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M2 16.5h1.5l1.8-8h7.4l1.8 4.5H19v3.5h-1.5" />
+                <circle cx="7" cy="18.5" r="1.7" />
+                <circle cx="16" cy="18.5" r="1.7" />
+              </svg>
+              <span className="font-display text-lg sm:text-xl md:text-2xl font-extrabold uppercase tracking-wide leading-tight text-cloud text-balance">
+                Ottawa &ndash; Gatineau{" "}
+                <span className="text-coral-soft">to all Canada</span>
               </span>
             </motion.div>
 

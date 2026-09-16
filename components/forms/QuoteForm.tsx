@@ -9,6 +9,7 @@ import { Slider } from "@/components/primitives/Slider";
 import { Button } from "@/components/primitives/Button";
 import { SubmitButton } from "@/components/forms/SubmitButton";
 import { MultiStepProgress } from "@/components/forms/MultiStepProgress";
+import { QuoteSuccess } from "@/components/forms/QuoteSuccess";
 import { submitQuote } from "@/app/actions/quote";
 import { initialQuoteState, type QuoteState } from "@/lib/form-state";
 import { HOME_SIZES, type HomeSize } from "@/lib/schemas";
@@ -228,7 +229,7 @@ export function QuoteForm() {
   const goBack = () => setStep((s) => Math.max(0, s - 1));
 
   if (state.ok) {
-    return <SuccessPanel />;
+    return <QuoteSuccess />;
   }
 
   // Compute "step is currently valid" from the hook's live state. Used to
@@ -555,29 +556,5 @@ function HiddenInputs({
         />
       ))}
     </>
-  );
-}
-
-function SuccessPanel() {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className="rounded-xl bg-cloud border border-border-soft p-10 md:p-14 text-center shadow-card"
-    >
-      <div className="mx-auto mb-6 flex size-16 items-center justify-center rounded-full bg-coral text-cloud">
-        <svg viewBox="0 0 24 24" className="size-8" fill="none" stroke="currentColor" strokeWidth="2.5">
-          <path d="M5 12l5 5L20 7" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </div>
-      <h2 className="font-display text-3xl md:text-4xl text-twilight">
-        Up, up, and <span className="italic text-coral">away.</span>
-      </h2>
-      <p className="mt-4 text-ink-muted text-pretty max-w-md mx-auto">
-        We&apos;ve got your details. A real person — not a bot — will come back to
-        you with a quote right away. We&apos;re available 24/7.
-      </p>
-    </motion.div>
   );
 }

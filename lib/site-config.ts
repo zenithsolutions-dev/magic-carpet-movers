@@ -39,10 +39,15 @@ export const siteConfig = {
     bbb: "A+",
     insured: true,
   },
+  // Real, verified profiles.
+  // NOTE: the Instagram handle is "magicarpet.inc" — ONE "c" in "magicarpet",
+  // matching the client's email. Their promo graphic prints "magiccarpet.inc"
+  // (two c's), which is not a live account; don't copy that spelling.
   social: {
-    instagram: "https://instagram.com/magiccarpet",
-    facebook: "https://facebook.com/magiccarpet",
-    google: "https://g.page/magiccarpet",
+    instagram: "https://www.instagram.com/magicarpet.inc/",
+    instagramHandle: "@magicarpet.inc",
+    whatsapp: "https://wa.me/15142468463",
+    google: "https://maps.app.goo.gl/t8hfhKzXARwfjZpz8",
   },
   // Leads go to the client's inbox. The sending domain is verified in the
   // client's own Resend account (RESEND_API_KEY in Vercel is theirs).

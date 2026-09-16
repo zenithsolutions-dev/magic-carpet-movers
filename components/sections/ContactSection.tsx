@@ -35,6 +35,20 @@ export function ContactSection() {
                 body="Open 24 hours a day, 7 days a week. We answer on the second ring."
               />
               <ContactBlock
+                eyebrow="WhatsApp"
+                title={
+                  <a
+                    href={siteConfig.social.whatsapp}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-twilight hover:text-coral transition-colors"
+                  >
+                    Message us on WhatsApp
+                  </a>
+                }
+                body="Send photos of what's moving and we'll size the job faster."
+              />
+              <ContactBlock
                 eyebrow="Email"
                 title={
                   <a

@@ -4,10 +4,10 @@ import { faqs, siteConfig } from "@/lib/site-config";
  * schema.org MovingCompany, sourced entirely from siteConfig so content
  * edits propagate automatically.
  *
+ * sameAs points at the client's verified Instagram profile and Google
+ * Business Profile, which is how Google ties this site to that listing.
+ *
  * Deliberately omitted:
- *  - sameAs: the social URLs in siteConfig are placeholders. // TODO add
- *    sameAs (real social profiles + the Google Business Profile URL) once
- *    the client supplies real links.
  *  - aggregateRating / review: the figures on the site are not verified.
  *    Unverifiable rating markup risks a manual action — add only when real
  *    review data exists.
@@ -21,6 +21,7 @@ export function buildMovingCompanySchema() {
     url: siteConfig.url,
     telephone: siteConfig.phoneHref.replace(/^tel:/, ""),
     email: siteConfig.email,
+    sameAs: [siteConfig.social.instagram, siteConfig.social.google],
     // Mobile business: region only, no street address (matches the site).
     address: {
       "@type": "PostalAddress",
