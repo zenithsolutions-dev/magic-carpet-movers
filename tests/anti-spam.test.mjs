@@ -44,3 +44,68 @@ test("heuristics reject gibberish names and digits-only messages, and pass real 
   assert.equal(spamHeuristic("Maya Rodriguez", "Moving from Kanata next month"), null);
   assert.equal(spamHeuristic("Wolfeschlegelstein", "Real inquiry"), null);
 });
+
+// ── Turnstile verification (only the network call to Cloudflare is faked) ──
+import { verifyTurnstile } from "../lib/anti-spam.ts";
+
+async function withTurnstile({ secret, respond }, run) {
+  const realFetch = globalThis.fetch;
+  const realSecret = process.env.TURNSTILE_SECRET_KEY;
+  const calls = [];
+  if (secret === undefined) delete process.env.TURNSTILE_SECRET_KEY;
+  else process.env.TURNSTILE_SECRET_KEY = secret;
+  globalThis.fetch = async (url, init) => {
+    calls.push({ url: String(url), body: String(init?.body ?? "") });
+    return respond();
+  };
+  try {
+    return await run(calls);
+  } finally {
+    globalThis.fetch = realFetch;
+    if (realSecret === undefined) delete process.env.TURNSTILE_SECRET_KEY;
+    else process.env.TURNSTILE_SECRET_KEY = realSecret;
+  }
+}
+const json = (body, ok = true) => () => ({ ok, json: async () => body });
+
+test("turnstile is skipped, and Cloudflare is not called, when no secret is configured", async () => {
+  await withTurnstile({ secret: undefined, respond: json({ success: false }) }, async (calls) => {
+    assert.equal(await verifyTurnstile("", "1.2.3.4"), true);
+    assert.equal(calls.length, 0);
+  });
+});
+
+test("turnstile rejects a missing token without calling Cloudflare", async () => {
+  await withTurnstile({ secret: "s3cret", respond: json({ success: true }) }, async (calls) => {
+    assert.equal(await verifyTurnstile("", "1.2.3.4"), false);
+    assert.equal(calls.length, 0);
+  });
+});
+
+test("turnstile accepts a token Cloudflare confirms, sending secret, token and client address", async () => {
+  await withTurnstile({ secret: "s3cret", respond: json({ success: true }) }, async (calls) => {
+    assert.equal(await verifyTurnstile("tok-123", "1.2.3.4"), true);
+    assert.equal(calls[0].url, "https://challenges.cloudflare.com/turnstile/v0/siteverify");
+    assert.match(calls[0].body, /secret=s3cret/);
+    assert.match(calls[0].body, /response=tok-123/);
+    assert.match(calls[0].body, /remoteip=1\.2\.3\.4/);
+  });
+});
+
+test("turnstile rejects a token Cloudflare refuses, an HTTP error, and a network failure", async () => {
+  await withTurnstile({ secret: "s3cret", respond: json({ success: false }) }, async () => {
+    assert.equal(await verifyTurnstile("bad", "1.2.3.4"), false);
+  });
+  await withTurnstile({ secret: "s3cret", respond: json({}, false) }, async () => {
+    assert.equal(await verifyTurnstile("tok", "1.2.3.4"), false);
+  });
+  await withTurnstile({ secret: "s3cret", respond: () => { throw new Error("down"); } }, async () => {
+    assert.equal(await verifyTurnstile("tok", "1.2.3.4"), false);
+  });
+});
+
+test("turnstile gives up when Cloudflare never answers", { timeout: 4000 }, async () => {
+  await withTurnstile({ secret: "s3cret", respond: () => new Promise(() => {}) }, async () => {
+    assert.equal(await verifyTurnstile("tok", "1.2.3.4", 50), false);
+  });
+});
