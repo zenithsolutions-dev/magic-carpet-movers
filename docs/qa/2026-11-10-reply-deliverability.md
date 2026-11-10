@@ -91,3 +91,20 @@ whose Reply-To is the business inbox.
 3. Reply to the receipt from the customer side, then have the owner answer
    that thread from Gmail; confirm his answer lands in the inbox.
 4. Decide on Turnstile keys to close the open MEDIUM.
+
+## Addendum, same day: open findings closed before merge
+
+Owner asked for anything else fixable to be fixed. Done on this branch:
+
+- Quote form now has a honeypot field and server check, like the contact form
+  (was MEDIUM, partly fixed).
+- The client address for rate limiting now prefers `x-vercel-forwarded-for`,
+  which the client cannot supply (was LOW).
+- `lib/anti-spam.ts` has its first tests in the repo.
+
+Re-run after these changes: `npm test` 25 passed, 0 failed; `npx tsc --noEmit`
+clean; `npx eslint lib/anti-spam.ts lib/email app/actions` clean;
+`npm run build` ok. `components/forms/QuoteForm.tsx` reports 2 lint problems
+both before and after this change (pre-existing react-hooks findings).
+
+Still open, need the owner: Turnstile keys, DMARC policy, and the live send.

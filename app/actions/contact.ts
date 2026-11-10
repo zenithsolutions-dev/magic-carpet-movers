@@ -10,6 +10,7 @@ import type { ContactInput } from "@/lib/schemas";
 import { validatePayload } from "@/lib/validate-payload";
 import {
   clientIpFrom,
+  isHoneypotTripped,
   isRateLimited,
   spamHeuristic,
   verifyTurnstile,
@@ -55,7 +56,7 @@ export async function submitContact(
   // ── spam gate ─────────────────────────────────────────────────────────
   // Honeypot: humans never see this field. A filled value means a bot —
   // report success so it doesn't learn anything, and send nothing.
-  if (String(formData.get("website") ?? "").trim() !== "") {
+  if (isHoneypotTripped(formData.get("website"))) {
     console.warn("Contact spam: honeypot tripped");
     return { ok: true };
   }

@@ -43,9 +43,17 @@ export function isRateLimited(ip: string): boolean {
 
 /** First hop of x-forwarded-for, or a stable fallback key. */
 export function clientIpFrom(headers: Headers): string {
+  // Set by Vercel's edge and not forwardable by the client, so it wins.
+  const vercel = headers.get("x-vercel-forwarded-for");
+  if (vercel) return vercel.split(",")[0].trim();
   const xff = headers.get("x-forwarded-for");
   if (xff) return xff.split(",")[0].trim();
   return headers.get("x-real-ip") ?? "unknown";
+}
+
+/** A honeypot field is hidden from people, so any value in it came from a bot. */
+export function isHoneypotTripped(value: unknown): boolean {
+  return typeof value === "string" && value.trim() !== "";
 }
 
 /**

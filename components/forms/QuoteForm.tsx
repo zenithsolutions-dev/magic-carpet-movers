@@ -256,6 +256,24 @@ export function QuoteForm() {
       >
         <HiddenInputs values={form.values} activeStep={step} />
 
+        {/* Honeypot — visually hidden (not display:none, so naive bots still
+            fill it), out of the tab order and hidden from screen readers. */}
+        <div
+          aria-hidden="true"
+          className="absolute size-px overflow-hidden whitespace-nowrap -m-px p-0 border-0"
+          style={{ clip: "rect(0 0 0 0)", clipPath: "inset(50%)" }}
+        >
+          <label htmlFor="qf-website">Website</label>
+          <input
+            id="qf-website"
+            type="text"
+            name="website"
+            tabIndex={-1}
+            autoComplete="off"
+            defaultValue=""
+          />
+        </div>
+
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={step}

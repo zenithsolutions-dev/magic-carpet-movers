@@ -5,7 +5,11 @@ import { siteConfig } from "@/lib/site-config";
 import { getResend } from "@/lib/email/resend";
 import { renderQuoteEmail } from "@/lib/email/quote-template";
 import { sendAcknowledgement } from "@/lib/email/send-acknowledgement";
-import { clientIpFrom, isRateLimited } from "@/lib/anti-spam";
+import {
+  clientIpFrom,
+  isHoneypotTripped,
+  isRateLimited,
+} from "@/lib/anti-spam";
 import type { QuoteState } from "@/lib/form-state";
 import { type QuoteInput, HOME_SIZES } from "@/lib/schemas";
 import { validatePayload } from "@/lib/validate-payload";
@@ -63,6 +67,13 @@ export async function submitQuote(
   _prev: QuoteState,
   formData: FormData,
 ): Promise<QuoteState> {
+  // Honeypot: people never see this field. Report success so a bot learns
+  // nothing, and send nothing.
+  if (isHoneypotTripped(formData.get("website"))) {
+    console.warn("Quote spam: honeypot tripped");
+    return { ok: true };
+  }
+
   const raw = {
     fromPostal: String(formData.get("fromPostal") ?? "").trim(),
     toPostal: String(formData.get("toPostal") ?? "").trim(),
