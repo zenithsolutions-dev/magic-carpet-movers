@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { siteConfig } from "@/lib/site-config";
 import { getResend } from "@/lib/email/resend";
 import { renderContactEmail } from "@/lib/email/contact-template";
+import { sendAcknowledgement } from "@/lib/email/send-acknowledgement";
 import type { ContactState } from "@/lib/form-state";
 import type { ContactInput } from "@/lib/schemas";
 import { validatePayload } from "@/lib/validate-payload";
@@ -132,6 +133,13 @@ export async function submitContact(
       error: "We couldn't send that just now. Please try again or call us.",
     };
   }
+
+  // The business has the message; the receipt to the visitor is best-effort.
+  await sendAcknowledgement({
+    to: result.data.email,
+    name: result.data.name,
+    kind: "contact",
+  });
 
   return { ok: true };
 }

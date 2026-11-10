@@ -53,7 +53,10 @@ export const siteConfig = {
   // client's own Resend account (RESEND_API_KEY in Vercel is theirs).
   quoteRecipientEmail: ["magicarpet.inc@gmail.com"],
   contactRecipientEmail: ["magicarpet.inc@gmail.com"],
-  fromEmail: "Magic Carpet Movers <quotes@magiccarpetmoving.com>",
+  // "Website" + no-reply marks these as automated site mail: the owner writes to
+  // customers from his own inbox, and the customer acknowledgement sets its
+  // Reply-To to the business address (lib/email/ack-delivery.ts).
+  fromEmail: "Magic Carpet Movers Website <no-reply@magiccarpetmoving.com>",
 } as const;
 
 export type SiteConfig = typeof siteConfig;
