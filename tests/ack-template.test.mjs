@@ -82,3 +82,13 @@ test("makes no response-time promise", () => {
   const mail = buildAcknowledgement({ name: "Sara", kind: "quote", brand });
   assert.doesNotMatch(mail.text, /within|hour|business day|minutes/i);
 });
+
+test("contact acknowledgement opens with the contact wording", () => {
+  const mail = buildAcknowledgement({ name: "Sara", kind: "contact", brand });
+  assert.match(mail.text, /Thank you for contacting Magic Carpet Movers\./);
+});
+
+test("html carries the same unsubscribe address as the header", () => {
+  const mail = buildAcknowledgement({ name: "Sara", kind: "quote", brand });
+  assert.ok(mail.html.includes('href="mailto:magicarpet.inc@gmail.com?subject=Unsubscribe"'));
+});

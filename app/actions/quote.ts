@@ -1,9 +1,11 @@
 "use server";
 
+import { headers } from "next/headers";
 import { siteConfig } from "@/lib/site-config";
 import { getResend } from "@/lib/email/resend";
 import { renderQuoteEmail } from "@/lib/email/quote-template";
 import { sendAcknowledgement } from "@/lib/email/send-acknowledgement";
+import { clientIpFrom, isRateLimited } from "@/lib/anti-spam";
 import type { QuoteState } from "@/lib/form-state";
 import { type QuoteInput, HOME_SIZES } from "@/lib/schemas";
 import { validatePayload } from "@/lib/validate-payload";
@@ -88,6 +90,17 @@ export async function submitQuote(
     fromPostal: normalizePostal(result.data.fromPostal),
     toPostal: normalizePostal(result.data.toPostal),
   };
+
+  // A valid submission now also emails the address the visitor typed, so the
+  // form gets the same per-IP ceiling the contact form has.
+  const ip = clientIpFrom(await headers());
+  if (isRateLimited(`quote:${ip}`)) {
+    return {
+      ok: false,
+      error:
+        "You've sent a few requests in a row — give it a little while, or just call us.",
+    };
+  }
 
   const resend = getResend();
   if (!resend) {

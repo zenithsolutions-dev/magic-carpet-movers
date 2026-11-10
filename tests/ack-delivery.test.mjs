@@ -56,3 +56,23 @@ test("never sends when the recipient is the business inbox itself", async () => 
   assert.equal(ok, false);
   assert.equal(calls.length, 0);
 });
+
+test("gives up and returns false when the provider never answers", { timeout: 3000 }, async () => {
+  const send = () => new Promise(() => {});
+  const started = Date.now();
+  const ok = await deliverAcknowledgement({ ...base, send, timeoutMs: 50 });
+  assert.equal(ok, false);
+  assert.ok(Date.now() - started < 1500, "must not wait for the provider");
+});
+
+test("never sends to a blank recipient", async () => {
+  const { calls, send } = recorder();
+  assert.equal(await deliverAcknowledgement({ ...base, to: "   ", send }), false);
+  assert.equal(calls.length, 0);
+});
+
+test("trims the recipient before sending", async () => {
+  const { calls, send } = recorder();
+  await deliverAcknowledgement({ ...base, to: "  sara@example.com ", send });
+  assert.deepEqual(calls[0].to, ["sara@example.com"]);
+});

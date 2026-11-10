@@ -26,6 +26,21 @@ export type AckSender = (
   payload: AckSendPayload,
 ) => Promise<{ error?: unknown } | null | undefined>;
 
+// The business is already notified when this runs, so the visitor's form
+// must not sit waiting on a slow mail provider.
+const DEFAULT_TIMEOUT_MS = 4000;
+
+const describeError = (err: unknown) =>
+  err instanceof Error ? err.message : "unknown error";
+
+function withTimeout<T>(work: Promise<T>, ms: number): Promise<T> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const expiry = new Promise<never>((_, reject) => {
+    timer = setTimeout(() => reject(new Error(`timed out after ${ms}ms`)), ms);
+  });
+  return Promise.race([work, expiry]).finally(() => clearTimeout(timer));
+}
+
 export async function deliverAcknowledgement(opts: {
   send: AckSender;
   from: string;
@@ -33,6 +48,7 @@ export async function deliverAcknowledgement(opts: {
   to: string;
   name: string;
   kind: AckKind;
+  timeoutMs?: number;
 }): Promise<boolean> {
   const to = opts.to.trim();
   // A test submission from the business's own address needs no receipt, and
@@ -46,7 +62,7 @@ export async function deliverAcknowledgement(opts: {
   });
 
   try {
-    const result = await opts.send({
+    const sending = opts.send({
       from: opts.from,
       to: [to],
       replyTo: opts.brand.email,
@@ -55,13 +71,20 @@ export async function deliverAcknowledgement(opts: {
       html: mail.html,
       headers: mail.headers,
     });
+    const result = await withTimeout(
+      sending,
+      opts.timeoutMs ?? DEFAULT_TIMEOUT_MS,
+    );
     if (result?.error) {
-      console.error("Acknowledgement email rejected", result.error);
+      console.error(
+        "Acknowledgement email rejected:",
+        describeError(result.error),
+      );
       return false;
     }
     return true;
   } catch (err) {
-    console.error("Acknowledgement email failed", err);
+    console.error("Acknowledgement email failed:", describeError(err));
     return false;
   }
 }
