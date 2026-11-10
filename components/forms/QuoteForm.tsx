@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useActionState } from "react";
+import Script from "next/script";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Input } from "@/components/primitives/Input";
 import { Select } from "@/components/primitives/Select";
@@ -118,6 +119,10 @@ const quoteSchema = {
   };
 };
 
+// Cloudflare Turnstile is opt-in: the widget renders only when a site key is
+// configured, and the server enforces it only when the secret is.
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+
 const STEP_FIELDS: (keyof QuoteFields)[][] = [
   ["fromPostal", "toPostal"],
   ["homeSize", "density", "moveDate"],
@@ -228,6 +233,15 @@ export function QuoteForm() {
 
   const goBack = () => setStep((s) => Math.max(0, s - 1));
 
+  // A Turnstile token is single-use. After a rejected submission the widget
+  // must issue a fresh one, or the visitor's retry would be refused.
+  React.useEffect(() => {
+    if (!state.error) return;
+    const w = window as unknown as { turnstile?: { reset: () => void } };
+    w.turnstile?.reset();
+  }, [state]);
+
+
   if (state.ok) {
     return <QuoteSuccess />;
   }
@@ -288,6 +302,21 @@ export function QuoteForm() {
             {step === 2 && <StepContact form={form} />}
           </motion.div>
         </AnimatePresence>
+
+        {TURNSTILE_SITE_KEY && (
+          <>
+            <Script
+              src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+              strategy="lazyOnload"
+            />
+            {/* Mounted on every step so Turnstile finds it when its script
+                loads and the token is ready by the last step. Collapsed, not
+                display:none, until then so the challenge can still run. */}
+            <div className={step === 2 ? "" : "h-0 overflow-hidden"}>
+              <div className="cf-turnstile" data-sitekey={TURNSTILE_SITE_KEY} />
+            </div>
+          </>
+        )}
 
         {state.error && (
           <p

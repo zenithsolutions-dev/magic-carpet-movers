@@ -84,16 +84,21 @@ export function spamHeuristic(name: string, message: string): string | null {
  *  - configured, API down   -> fail closed (spam protection over availability
  *    for a low-volume lead form; the visitor sees "try again or call us")
  */
+// A visitor must not sit on a spinner because Cloudflare is slow.
+const TURNSTILE_TIMEOUT_MS = 5000;
+
 export async function verifyTurnstile(
   token: string,
   ip: string,
+  timeoutMs: number = TURNSTILE_TIMEOUT_MS,
 ): Promise<boolean> {
   const secret = process.env.TURNSTILE_SECRET_KEY;
   if (!secret) return true;
   if (!token) return false;
 
+  let timer: ReturnType<typeof setTimeout> | undefined;
   try {
-    const res = await fetch(
+    const request = fetch(
       "https://challenges.cloudflare.com/turnstile/v0/siteverify",
       {
         method: "POST",
@@ -103,13 +108,26 @@ export async function verifyTurnstile(
           response: token,
           ...(ip !== "unknown" ? { remoteip: ip } : {}),
         }),
+        signal: AbortSignal.timeout(timeoutMs),
       },
     );
+    const expiry = new Promise<never>((_, reject) => {
+      timer = setTimeout(
+        () => reject(new Error(`timed out after ${timeoutMs}ms`)),
+        timeoutMs,
+      );
+    });
+    const res = await Promise.race([request, expiry]);
     if (!res.ok) return false;
     const data = (await res.json()) as { success?: boolean };
     return data.success === true;
   } catch (err) {
-    console.error("Turnstile verify failed", err);
+    console.error(
+      "Turnstile verify failed:",
+      err instanceof Error ? err.message : "unknown error",
+    );
     return false;
+  } finally {
+    clearTimeout(timer);
   }
 }

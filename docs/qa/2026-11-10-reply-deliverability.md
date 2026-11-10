@@ -108,3 +108,52 @@ clean; `npx eslint lib/anti-spam.ts lib/email app/actions` clean;
 both before and after this change (pre-existing react-hooks findings).
 
 Still open, need the owner: Turnstile keys, DMARC policy, and the live send.
+
+## Addendum 2: Turnstile on the quote form (branch fix/quote-turnstile-honeypot)
+
+PR #2 was merged at cc38a04, before the honeypot commit, so that commit ships
+here together with the Turnstile work.
+
+Finding while checking production: Turnstile keys were already set in Vercel
+and the widget was live on the contact form, but the quote form, the one that
+now emails the address a visitor types, was not connected to it.
+
+Changes: Turnstile widget and server check on the quote form; a 5 second
+ceiling on the Cloudflare call (it had none, on the live contact form too);
+the widget is reset after a rejected submission, on both forms, because a
+token is single-use and a retry would otherwise be refused.
+
+### Real-browser run (Chrome via DevTools, Next dev on localhost:3311, Cloudflare's published test keys, no Resend key)
+
+| # | Scenario | Result |
+|---|---|---|
+| 1 | Page load | Both widgets issued a token; requestAnimationFrame running |
+| 2 | Step 1 to 2 to 3 with valid input | Advanced; first time the step transitions were exercised in a real browser |
+| 3 | Widget on steps 1 and 2 | Collapsed, height 0 |
+| 4 | Widget on step 3 | Visible, height 71, token present |
+| 5 | Submit with the always-pass secret | Passed the human check and stopped at "Email service isn't configured", the expected local stop |
+| 6 | After that error | Widget reset and issued a new token |
+| 7 | Submit with the always-fail secret | "We couldn't confirm you're human" |
+| 8 | Honeypot filled, then submit | Success panel shown, no error, nothing sent |
+
+### Gates
+
+`npm test` 30 passed, 0 failed (RED seen first for the Cloudflare timeout).
+`npx tsc --noEmit` clean. `npm run build` ok, 15/15 pages. One build run
+failed with Turbopack resolve errors when started while the dev server was
+still shutting down; it passed on the next run with nothing changed.
+`npx eslint lib app/actions components/forms/ContactForm.tsx` reports 3
+problems, all in `lib/use-form-validator.ts`, untouched by this work.
+
+### NOT TESTED
+
+- The real production keys: whether the production widget accepts the
+  hostname magiccarpetmoving.com for a second widget on the same page. The
+  contact form already uses the same key on that page, which is the evidence
+  it will. If it failed, quote requests would be refused until fixed.
+- A live send through Resend and inbox placement.
+
+### Verdict: READY WITH GAPS
+
+Check straight after deploy: submit one real quote on the live site. If it
+shows "couldn't confirm you're human", revert this merge.

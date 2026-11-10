@@ -84,6 +84,14 @@ export function ContactForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.fieldErrors]);
 
+// A Turnstile token is single-use. After a rejected submission the widget
+  // must issue a fresh one, or the visitor's retry would be refused.
+  React.useEffect(() => {
+    if (!state.error) return;
+    const w = window as unknown as { turnstile?: { reset: () => void } };
+    w.turnstile?.reset();
+  }, [state]);
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     const { valid } = form.validateAll();
     if (!valid) {
