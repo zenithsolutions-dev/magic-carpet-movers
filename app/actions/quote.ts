@@ -3,6 +3,7 @@
 import { siteConfig } from "@/lib/site-config";
 import { getResend } from "@/lib/email/resend";
 import { renderQuoteEmail } from "@/lib/email/quote-template";
+import { sendAcknowledgement } from "@/lib/email/send-acknowledgement";
 import type { QuoteState } from "@/lib/form-state";
 import { type QuoteInput, HOME_SIZES } from "@/lib/schemas";
 import { validatePayload } from "@/lib/validate-payload";
@@ -122,6 +123,9 @@ export async function submitQuote(
       error: "We couldn't send that just now. Please try again or call us.",
     };
   }
+
+  // The business has the request; the receipt to the customer is best-effort.
+  await sendAcknowledgement({ to: data.email, name: data.name, kind: "quote" });
 
   return { ok: true };
 }
